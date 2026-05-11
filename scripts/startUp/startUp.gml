@@ -1,0 +1,1 @@
+var seed = random_set_seed(floor(get_timer()))

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"startUp",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"startUp",
+  "parent":{
+    "name":"culture",
+    "path":"culture.yyp",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
