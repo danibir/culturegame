@@ -9,8 +9,8 @@
   "name":"obj_memory_flag",
   "overriddenProperties":[],
   "parent":{
-    "name":"culture",
-    "path":"culture.yyp",
+    "name":"mygame",
+    "path":"folders/mygame.yy",
   },
   "parentObjectId":null,
   "persistent":false,
@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"Sprite5",
-    "path":"sprites/Sprite5/Sprite5.yy",
+    "name":"spr_flag",
+    "path":"sprites/spr_flag/spr_flag.yy",
   },
   "spriteMaskId":null,
   "visible":true,

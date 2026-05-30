@@ -8,8 +8,8 @@
   "name":"obj_eng",
   "overriddenProperties":[],
   "parent":{
-    "name":"culture",
-    "path":"culture.yyp",
+    "name":"mygame",
+    "path":"folders/mygame.yy",
   },
   "parentObjectId":null,
   "persistent":false,
@@ -29,7 +29,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"spr_engine",
+    "path":"sprites/spr_engine/spr_engine.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

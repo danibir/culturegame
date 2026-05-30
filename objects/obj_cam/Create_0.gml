@@ -1,4 +1,4 @@
-zoom = 1
+zoom = 0.125
 canManuallyZoom = true
 default_view_width = 384
 default_view_height = 221

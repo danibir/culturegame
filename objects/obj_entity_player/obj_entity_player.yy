@@ -8,8 +8,8 @@
   "name":"obj_entity_player",
   "overriddenProperties":[],
   "parent":{
-    "name":"culture",
-    "path":"culture.yyp",
+    "name":"mygame",
+    "path":"folders/mygame.yy",
   },
   "parentObjectId":{
     "name":"obj_entity",

@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"startUp",
   "parent":{
-    "name":"culture",
-    "path":"culture.yyp",
+    "name":"mygame",
+    "path":"folders/mygame.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

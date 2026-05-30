@@ -8,8 +8,8 @@
   "name":"obj_wall_cluster",
   "overriddenProperties":[],
   "parent":{
-    "name":"culture",
-    "path":"culture.yyp",
+    "name":"mygame",
+    "path":"folders/mygame.yy",
   },
   "parentObjectId":null,
   "persistent":false,
@@ -30,8 +30,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"Sprite5",
-    "path":"sprites/Sprite5/Sprite5.yy",
+    "name":"spr_engine",
+    "path":"sprites/spr_engine/spr_engine.yy",
   },
   "spriteMaskId":null,
   "visible":false,

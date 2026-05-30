@@ -9,8 +9,8 @@
   "name":"obj_cam",
   "overriddenProperties":[],
   "parent":{
-    "name":"culture",
-    "path":"culture.yyp",
+    "name":"mygame",
+    "path":"folders/mygame.yy",
   },
   "parentObjectId":null,
   "persistent":false,

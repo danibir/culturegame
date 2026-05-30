@@ -8,8 +8,8 @@
   "name":"obj_wall",
   "overriddenProperties":[],
   "parent":{
-    "name":"culture",
-    "path":"culture.yyp",
+    "name":"mygame",
+    "path":"folders/mygame.yy",
   },
   "parentObjectId":null,
   "persistent":false,
@@ -34,5 +34,8 @@
     "path":"sprites/spr_wall/spr_wall.yy",
   },
   "spriteMaskId":null,
+  "tags":[
+    "depthed",
+  ],
   "visible":true,
 }
