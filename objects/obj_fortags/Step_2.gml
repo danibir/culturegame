@@ -1,7 +1,7 @@
 var objs = tag_get_assets("depthed")
 function depthAssets (assetType) {
 	with asset_get_index(assetType) {
-		depth = -y
+		depth = layer_get_depth("Instances") - y
 	}
 }
 

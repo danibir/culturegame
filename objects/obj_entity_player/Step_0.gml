@@ -2,7 +2,7 @@
 
 
 obj_camfocus.x = lerp(obj_camfocus.x, x + xspeed * 30, 0.1)
-obj_camfocus.y = lerp(obj_camfocus.y, y + yspeed * 30, 0.1)
+obj_camfocus.y = lerp(obj_camfocus.y, y - sprite.sprite_height / 2 + yspeed * 30, 0.1)
 
 var walkspeed = 0.15
 if keyboard_check(vk_shift)

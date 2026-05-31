@@ -8,7 +8,13 @@ switch (behavior) {
 	break
 	
 	case "":
-		behavior = "request_wander"
+		behavior = "request_gotopoint"
+	break
+	
+	case "request_gotopoint":
+		var attempts1 = 0
+		for (var i = 0; i < attempts1; i++)
+		{}
 	break
 	
 	case "request_wander":
@@ -112,8 +118,7 @@ switch (behavior) {
 	    var dir = point_direction(x, y, nx, ny);
 	    var spd = 0.3;
 		var dist = point_distance(x, y, nx, ny)
-		if (dist <= 2) {
-		    // snap to the point
+		if (dist <= spd * 5) {
 		    pathProgress++;
 		}
 		else {

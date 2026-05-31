@@ -2,6 +2,8 @@ zoom = 0.125
 canManuallyZoom = true
 default_view_width = 384
 default_view_height = 221
+view_width = default_view_width / zoom
+view_height = default_view_height / zoom
 
 tug = false
 tugx = x

@@ -1,5 +1,4 @@
 show_debug_log(true)
-
 instance_create_layer(x, y, "Instances", obj_mouse)
 for (var a = 0; a - 1 < room_width / 16; a++) {
 	for (var b = 0; b - 1 < room_height / 16; b++) {
@@ -8,6 +7,8 @@ for (var a = 0; a - 1 < room_width / 16; a++) {
 }
 instance_create_layer(x, y, "Instances", obj_wrldgen_init)
 instance_create_layer(x, y, "Instances", obj_fortags)
+instance_create_layer(x, y, "Instances", obj_cam)
+instance_create_layer(x, y, "LoadScreen", obj_loadscreen)
 
 function createSpawn (_entity, _number) 
 constructor {

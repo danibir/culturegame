@@ -3,6 +3,7 @@ image_blend = c_green
 removeBlocks = []
 cavesWIP = []
 complete = false
+progress = 0
 
 function digCave(x1, y1, x2, y2, steps, step_len, sway, cavewidth, cavegrow = 1, px = NaN, py = NaN) {
 	// create path
@@ -126,14 +127,14 @@ function formCaveStep (maxRange) {
 			var px2 = path_get_x(p, dist / path_full)
 			var py2 = path_get_y(p, dist / path_full)
 			var n_wall = instance_nearest(px2, py2, obj_wall)
-			var borderwidth = 17
+			var borderwidth = 20
 			if point_distance(n_wall.x, n_wall.y, px2, py2) < cavesize + borderwidth + 16 {
 				if ds_list_size(dslist) <= 0
 					collision_circle_list(px2, py2, cavesize + borderwidth + 16, obj_wall, true, false, dslist, true)
 				while (ds_list_size(dslist) > 0) {
 					var inst = ds_list_find_value(dslist, 0)
 					var distance = point_distance(inst.x, inst.y, px2, py2)
-					if distance >= cavesize + 16 {
+					if distance >= cavesize + borderwidth {
 					} else if distance >= cavesize and !array_contains(removeBlocks, inst) {
 						array_push(removeBlocks, inst)
 						inst.image_blend = c_dkgray

@@ -29,7 +29,7 @@ if follow != noone and instance_exists(follow)
 }
 
 
-var view_width = default_view_width / zoom
-var view_height = default_view_height / zoom
+view_width = default_view_width / zoom
+view_height = default_view_height / zoom
 camera_set_view_size(cam, view_width, view_height)
 camera_set_view_pos(cam, x - view_width / 2, y - view_height / 2)

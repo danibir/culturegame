@@ -2,7 +2,8 @@ event_inherited()
 walkToPoint = {x, y}
 walkPath = path_add()
 path_set_kind(walkPath, true)
-path_wander = NaN
+path_wander = path_add()
+path_goal = path_add()
 fails = 0
 thinktimer = 0
 plotPoint = function (attempts, x1, y1, x2, y2) {

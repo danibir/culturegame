@@ -36,5 +36,5 @@
     "path":"sprites/spr_engine/spr_engine.yy",
   },
   "spriteMaskId":null,
-  "visible":true,
+  "visible":false,
 }
