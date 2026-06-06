@@ -19,8 +19,8 @@ constructor {
 gridSize = 16
 worldGrid = mp_grid_create(0, 0, room_width div gridSize, room_height div gridSize, gridSize, gridSize)
 initGame = function () {
-	var treecount = 300
-	for (var i = 0; i < 24; i++) {
+	var treecount = 150
+	for (var i = 0; i < treecount; i++) {
 		var pos = obj_wrldgen_init.getCaveSpot()
 		var tree = instance_create_layer(pos.x, pos.y, "Instances", obj_tree)
 		with tree {

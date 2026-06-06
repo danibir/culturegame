@@ -6,7 +6,7 @@ obj_camfocus.y = lerp(obj_camfocus.y, y - sprite.sprite_height / 2 + yspeed * 30
 
 var walkspeed = 0.15
 if keyboard_check(vk_shift)
-	walkspeed *= 2
+	walkspeed *= 2.5
 if keyboard_check_pressed(vk_space)
 	walkspeed *= 20
 if keyboard_check_pressed(vk_control) {
@@ -14,21 +14,37 @@ if keyboard_check_pressed(vk_control) {
 	y = mouse_y
 }
 
+var moveside = []
 if keyboard_check(ord("D")) and not array_contains(collisionWTerrain, "right")
 {
-	xspeed += walkspeed
+	moving = true
+	array_push(moveside, "right")
 }
 if keyboard_check(ord("A")) and not array_contains(collisionWTerrain, "left")
 {
-	xspeed -= walkspeed
+	moving = true
+	array_push(moveside, "left")
 }
 if keyboard_check(ord("S")) and not array_contains(collisionWTerrain, "bottom")
 {
-	yspeed += walkspeed
+	moving = true
+	array_push(moveside, "down")
 }
 if keyboard_check(ord("W")) and not array_contains(collisionWTerrain, "top")
 {
-	yspeed -= walkspeed
+	moving = true
+	array_push(moveside, "up")
 }
+if array_length(moveside) == 2
+	walkspeed *= 0.7
+
+if array_contains(moveside, "right")
+	xspeed += walkspeed
+if array_contains(moveside, "left")
+	xspeed -= walkspeed
+if array_contains(moveside, "down")
+	yspeed += walkspeed
+if array_contains(moveside, "up")
+	yspeed -= walkspeed
 
 event_inherited()

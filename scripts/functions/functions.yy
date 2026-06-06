@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"functions",
   "parent":{
-    "name":"mygame",
-    "path":"folders/mygame.yy",
+    "name":"sprites",
+    "path":"folders/mygame/sprites.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

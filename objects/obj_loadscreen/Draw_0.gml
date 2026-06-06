@@ -23,7 +23,11 @@ size.x2 + border + borderdis,
 size.y2 + border + borderdis, 
 false)
 
-draw_text(size.x1, size.y1 + 16, "Generating map...")
+var dots = ""
+for (var i = 0; i < dotamount; i++)
+	dots += "."
+draw_text(size.x1, size.y1 + 16, "Generating map" + dots)
+draw_text(size.x1, size.y1 - 32, "(" + string(progress * 100) + "%)")
 
 draw_set_color(c_black)
 draw_rectangle(

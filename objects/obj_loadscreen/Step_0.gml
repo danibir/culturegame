@@ -1,6 +1,9 @@
+time += delta_time / 1000000 * 60
+
 x = obj_cam.x - obj_cam.view_width / 2
 y = obj_cam.y - obj_cam.view_height / 2
 
+dotamount = clamp(((time / 60) mod 3), 1, 3)
 
 progress = 0 + obj_wrldgen_init.progress
 if progress >= 1

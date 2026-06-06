@@ -1,4 +1,8 @@
 draw_self()
-try {
-} catch (err) {}
+draw_set_alpha(1)
 draw_text(x, y, behavior)
+draw_text(x, y + 16, lastDirection)
+draw_set_color(c_orange)
+draw_path(path_wander, x, y, true)
+draw_set_color(c_lime)
+draw_path(path_goal, x, y, true)

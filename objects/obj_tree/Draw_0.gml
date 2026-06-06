@@ -1,0 +1,1 @@
+draw_rectangle(sprite.bbox.left, sprite.bbox.top, sprite.bbox.right, sprite.bbox.bottom, false)

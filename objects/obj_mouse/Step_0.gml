@@ -8,7 +8,7 @@ if mouse_check_button_pressed(mb_left) {
 	}
 }
 if mouse_check_button(mb_left) {
-	if obj != noone {
+	if obj != noone and instance_exists(obj){
 		obj.x = x + offsetx
 		obj.y = y + offsety
 	}

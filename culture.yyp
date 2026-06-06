@@ -27,7 +27,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.14.4.222",
+    "IDEVersion":"2026.0.0.16",
   },
   "name":"culture",
   "resources":[
@@ -48,6 +48,7 @@
     {"id":{"name":"obj_wrldgen_init","path":"objects/obj_wrldgen_init/obj_wrldgen_init.yy",},},
     {"id":{"name":"oCoroutineManager","path":"objects/oCoroutineManager/oCoroutineManager.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"id":{"name":"RoomMenu","path":"rooms/RoomMenu/RoomMenu.yy",},},
     {"id":{"name":"__CoroutineAwaitAllClass","path":"scripts/__CoroutineAwaitAllClass/__CoroutineAwaitAllClass.yy",},},
     {"id":{"name":"__CoroutineAwaitAsyncClass","path":"scripts/__CoroutineAwaitAsyncClass/__CoroutineAwaitAsyncClass.yy",},},
     {"id":{"name":"__CoroutineAwaitBroadcastClass","path":"scripts/__CoroutineAwaitBroadcastClass/__CoroutineAwaitBroadcastClass.yy",},},
@@ -85,6 +86,7 @@
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"roomId":{"name":"RoomMenu","path":"rooms/RoomMenu/RoomMenu.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

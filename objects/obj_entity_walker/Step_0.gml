@@ -1,24 +1,82 @@
+//step event
+
 event_inherited()
 turnTimer--
 switch (behavior) {
 	case "think":
+	{
 		thinktimer--
 		if thinktimer <= 0
 			behavior = ""
-	break
+		break
+	}
 	
 	case "":
+	{
 		behavior = "request_gotopoint"
-	break
+		break
+	}
+	
+	case "wriggle": {
+		var dir = random(360)
+		var _push = 3
+		var _x = lengthdir_x(_push, dir)
+		var _y = lengthdir_y(_push, dir)
+		xspeed += _x
+		yspeed += _y
+		thinktimer = 90
+		behavior = "think"
+		break
+	}
 	
 	case "request_gotopoint":
-		var attempts1 = 0
-		for (var i = 0; i < attempts1; i++)
-		{}
-	break
-	
+	{
+		var attempts = 12
+		var poslist = []
+		for (var i = 0; i < attempts; i++) {
+			array_push(poslist, obj_wrldgen_init.getCaveSpot())
+		}
+		poslist = array_filter(poslist, function (a) {
+			function nearest_flag(px, py) {
+		        var best = memoryflags[0]
+		        var bestdist = point_distance(px, py, best.x, best.y)
+		        for (var i = 1; i < array_length(memoryflags); i++) {
+		            var f = memoryflags[i]
+		            var d = point_distance(px, py, f.x, f.y)
+		            if (d < bestdist) {
+		                best = f
+		                bestdist = d
+		            }
+		        }
+		        return best
+		    }
+			function get_path (_x, _y, flag) {
+				var path = path_add()
+				var success = mp_grid_path(
+			        obj_eng.worldGrid, path,
+			        _x, _y, flag.x, flag.y,
+			        true
+			    )
+				var dis = path_get_length(path)
+				path_delete(path)
+				return {success: success, dis, dis}
+			}
+			var aflag = nearest_flag(a.x, a.y)
+			var aresult = get_path(a.x, a.y, aflag)
+			return aresult.dis >= 192
+		})
+		if array_length(poslist) > 0 {
+			var posgoal = poslist[0]
+			setDirection(posgoal.x, posgoal.y)
+			beginWalk(posgoal.x, posgoal.y, "walkflat")
+		} else {
+			behavior = "wriggle"
+		}
+		break
+	}
 	case "request_wander":
-		var radius = 128
+	{
+		var radius = 512
 		var range = { 
 			x1: x - radius, y1: y - radius,
 			x2: x + radius, y2: y + radius 
@@ -62,7 +120,7 @@ switch (behavior) {
 		})
 		if array_length(spots) != 0 {
 			setDirection(spots[0].x, spots[0].y)
-			walkTowards(spots[0].x, spots[0].y)
+			beginWalk(spots[0].x, spots[0].y, "walkflat")
 			fails = 0
 		} else {
 			fails++
@@ -73,10 +131,12 @@ switch (behavior) {
 				fails = 0
 			}
 		}
-	break
+		break
+	}
 	
 	
 	case "request_explore":
+	{
 		var attempts = 24
 		var size = 256
 		var spots = plotPoint(attempts, x - size, y - size, x + size, y + size)
@@ -98,32 +158,16 @@ switch (behavior) {
 			return bdis - adis
 		})
 		if array_length(spots) != 0 {
-			walkTowards(spots[0].x, spots[0].y)
+			beginWalk(spots[0].x, spots[0].y, "walkflat")
 		}
-	break
+		break
+	}
 	
 	
-	case "walkTowards":
-	
-		var total = path_get_number(path_wander);
-	    if (pathProgress >= total) {
-			pathProgress = 0
-	        behavior = "";
-	        break;
-	    }
-
-	    var nx = path_get_point_x(path_wander, pathProgress);
-	    var ny = path_get_point_y(path_wander, pathProgress);
-
-	    var dir = point_direction(x, y, nx, ny);
-	    var spd = 0.3;
-		var dist = point_distance(x, y, nx, ny)
-		if (dist <= spd * 5) {
-		    pathProgress++;
-		}
-		else {
-		    xspeed += lengthdir_x(spd, dir);
-		    yspeed += lengthdir_y(spd, dir);
-		}
-	break
+	case "walkflat": {
+		walkUntil(0.3, function () {
+			behavior = ""
+		})
+		break
+	}
 }

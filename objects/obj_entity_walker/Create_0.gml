@@ -1,9 +1,10 @@
+//create event
+
 event_inherited()
 walkToPoint = {x, y}
-walkPath = path_add()
-path_set_kind(walkPath, true)
 path_wander = path_add()
 path_goal = path_add()
+goalprogress = 0
 fails = 0
 thinktimer = 0
 plotPoint = function (attempts, x1, y1, x2, y2) {
@@ -22,7 +23,8 @@ plotPoint = function (attempts, x1, y1, x2, y2) {
 	return spots
 }
 pathProgress = 0
-walkTowards = function(px, py) {
+beginWalk = function(px, py, next) {
+	instance_create_layer(x, y, "LoadScreen", obj_memory_flag)
     walkToPoint.x = px;
     walkToPoint.y = py;
 
@@ -36,12 +38,16 @@ walkTowards = function(px, py) {
         x, y,
         walkToPoint.x, walkToPoint.y,
         true
-    );
+    )
 
     if (success) {
-        path_position = 0; // NEW: start at first point
-        behavior = "walkTowards";
-    }
+        behavior = next
+		fails = 0
+    } else {
+		fails++
+		if fails >= 5
+			behavior = "wriggle"
+	}
 }
 lastDirection = [choose("left", "right", "up", "down")]
 turnTimer = 0
@@ -128,4 +134,27 @@ setDirection = function (pointx, pointy) {
 	if (lastDirection == oldDirection)
 		turnTimer = 30
 	return (lastDirection == oldDirection)
+}
+function walkUntil (walkspeed, func) {
+	
+	var total = path_get_number(path_wander);
+	var nx = path_get_point_x(path_wander, pathProgress)
+	var ny = path_get_point_y(path_wander, pathProgress)
+	if (pathProgress >= total or collision_line(x, y, nx, ny, obj_wall, false, true)) {
+		pathProgress = 0
+		func()
+		return
+	}
+	var dir = point_direction(x, y, nx, ny)
+	var spd = walkspeed;
+	var dist = point_distance(x, y, nx, ny)
+	if (dist <= spd * 5) {
+		pathProgress++;
+	}
+	else {
+		moving = true
+		xspeed += lengthdir_x(spd, dir);
+		yspeed += lengthdir_y(spd, dir);
+	}
+	return
 }

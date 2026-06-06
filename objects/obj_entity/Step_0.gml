@@ -13,6 +13,17 @@ collisionWTerrain = []
 x += xspeed
 y += yspeed
 
+zspeed -= zgrav
+z += zspeed
+if moving = true {
+	if z <= 0
+	zspeed = walkbounce
+}
+moving = false
+z = max(0, z)
+sprite.yoffset = -z
+
+
 xspeed *= 0.8
 yspeed *= 0.8
 

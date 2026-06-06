@@ -8,3 +8,9 @@ rot = 0
 col = c_white
 alpha = 1
 body = NaN
+bbox = {
+	left: x,
+	top: y,
+	right: x,
+	bottom: y
+}
