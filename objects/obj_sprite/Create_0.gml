@@ -14,3 +14,4 @@ bbox = {
 	right: x,
 	bottom: y
 }
+depthExempt = false

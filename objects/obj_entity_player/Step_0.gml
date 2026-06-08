@@ -1,8 +1,18 @@
 
+sharedFocus = { x: x, y: y,}
+sharedCount = 0
+array_foreach(knownEntities, function (elm) {
+	if isVisible(elm.instance) and distance_to_object(elm.instance) < sightDistance {
+		sharedFocus.x += elm.instance.x
+		sharedFocus.y += elm.instance.y
+		sharedCount++
+	}
+})
+sharedFocus.x /= sharedCount + 1
+sharedFocus.y /= sharedCount + 1
 
-
-obj_camfocus.x = lerp(obj_camfocus.x, x + xspeed * 30, 0.1)
-obj_camfocus.y = lerp(obj_camfocus.y, y - sprite.sprite_height / 2 + yspeed * 30, 0.1)
+obj_camfocus.x = lerp(obj_camfocus.x, sharedFocus.x + xspeed * 30, 0.1)
+obj_camfocus.y = lerp(obj_camfocus.y, sharedFocus.y - sprite.sprite_height / 2 + yspeed * 30, 0.1)
 
 var walkspeed = 0.15
 if keyboard_check(vk_shift)
@@ -46,5 +56,8 @@ if array_contains(moveside, "down")
 	yspeed += walkspeed
 if array_contains(moveside, "up")
 	yspeed -= walkspeed
+
+if keyboard_check(vk_backspace)
+	instance_destroy()
 
 event_inherited()

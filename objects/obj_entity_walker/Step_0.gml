@@ -2,6 +2,7 @@
 
 event_inherited()
 turnTimer--
+
 switch (behavior) {
 	case "think":
 	{

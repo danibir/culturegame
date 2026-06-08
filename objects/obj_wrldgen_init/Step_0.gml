@@ -6,6 +6,6 @@ if (formCaveStep(delta_time / 1000000 * 200).complete and complete = false) {
 progress = array_length(caves) / array_length(cavesWIP)
 if progress < 1 {
 	var currCave = cavesWIP[array_find_index(cavesWIP, function (a) {return a.complete == false})]
-	var caveProg = currCave.offset / currCave.path_length / 0.85
+	var caveProg = currCave.offset / currCave.path_length / 0.97
 	progress += caveProg / array_length(cavesWIP)
 }

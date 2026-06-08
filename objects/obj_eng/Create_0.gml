@@ -1,11 +1,28 @@
 show_debug_log(true)
 instance_create_layer(x, y, "Instances", obj_mouse)
-for (var a = 0; a - 1 < room_width / 16; a++) {
-	for (var b = 0; b - 1 < room_height / 16; b++) {
-		instance_create_layer(a * 16, b * 16, "Instances", obj_wall)
+caveInstances = []
+function prescribe_Cave (_steps, _step_len, _sway, _cavewidth, _cavegrow) {
+	var caveobj = {
+		steps: _steps,
+		step_len: _step_len,
+		sway: _sway,
+		cavewidth: _cavewidth,
+		cavegrow: _cavegrow,
+		px: NaN,
+		py: NaN
 	}
+	array_push(caveInstances, caveobj)
 }
+for (var i = 0; i < 3; i++)
+	prescribe_Cave(
+	random_range(36, 48), 
+	random_range(36, 48), 
+	random_range(10, 30), 
+	random_range(16, 24), 
+	random_range(1, 3)
+)
 instance_create_layer(x, y, "Instances", obj_wrldgen_init)
+ 
 instance_create_layer(x, y, "Instances", obj_fortags)
 instance_create_layer(x, y, "Instances", obj_cam)
 instance_create_layer(x, y, "LoadScreen", obj_loadscreen)
@@ -15,23 +32,26 @@ constructor {
 	entity = _entity;
 	number = _number;
 }
-
 gridSize = 16
 worldGrid = mp_grid_create(0, 0, room_width div gridSize, room_height div gridSize, gridSize, gridSize)
 initGame = function () {
-	var treecount = 150
-	for (var i = 0; i < treecount; i++) {
+	var treeEach = 24
+	for (var i = 0; i < treeEach * array_length(caveInstances); i++) {
 		var pos = obj_wrldgen_init.getCaveSpot()
 		var tree = instance_create_layer(pos.x, pos.y, "Instances", obj_tree)
 		with tree {
-			move_and_collide(random(48) * choose(-1, 1), random(48) * choose(-1, 1), obj_wall)
-			alignToGrid(16)
+			xside = choose(-1, 1)
+			yside = choose(-1, 1)
+			
+			move_and_collide(random(256) * xside, random(256) * yside, obj_wall)
+			x -= xside * 4
+			y -= yside * 4
 		}
 	}
 	mp_grid_add_instances(worldGrid, obj_wall, false);
 	var spawnEntities = [
 	new createSpawn(obj_entity_player, 1),
-	new createSpawn(obj_entity_walker, 1)
+	new createSpawn(obj_entity_walker, 5)
 	]
 	
 	var positions = []
@@ -59,10 +79,39 @@ initGame = function () {
 	var result = array_pop(positions)
 	for (var i = 0; i < array_length(result.positions); i++) {
 		var entity = result.positions[i]
+		var pack = []
 		for (var c = 0; c < entity.entity.number; c++) {
 			var newentity = instance_create_layer(entity.position.x, entity.position.y, "Instances", entity.entity.entity)
 			newentity.x = entity.position.x
 			newentity.y = entity.position.y
+			var ctx = { newentity };
+			var cb = method(ctx, function(pmember) {
+			    var index = pmember.createMemoryEntity(self.newentity);
+				var memory = pmember.knownEntities[index]
+				
+				//change object keys...
+				memory.state = "ally"
+				memory.familiarity = 0.8
+				
+				
+				pmember.knownEntities[index] = memory
+			})
+			array_foreach(pack, cb)
+			array_push(pack, newentity)
+		}
+		if entity.entity.number > 1 {
+			array_sort(pack, function (member1, member2) {
+				return member2.personality.alpha - member1.personality.alpha
+			})
+			var ctx = { alphaentity: pack[0], pack }
+			var cb = method(ctx, function (pmember) {
+				array_foreach(pmember.knownEntities, function (memory) {
+					if memory.instance == alphaentity {
+						memory.state = "alpha"
+					}
+				})
+			})
+			array_foreach(pack, cb)
 		}
 	}
 }

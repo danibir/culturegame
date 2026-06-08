@@ -28,8 +28,9 @@ if follow != noone and instance_exists(follow)
 	y = lerp(y, follow.y + offset_y, lerpval)
 }
 
-
 view_width = default_view_width / zoom
 view_height = default_view_height / zoom
+x = clamp(x, 0 + view_width / 2, room_width - view_width / 2)
+y = clamp(y, 0 + view_height / 2, room_height - view_height / 2)
 camera_set_view_size(cam, view_width, view_height)
 camera_set_view_pos(cam, x - view_width / 2, y - view_height / 2)

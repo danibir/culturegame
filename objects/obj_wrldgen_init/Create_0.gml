@@ -1,9 +1,17 @@
-image_blend = c_green
 
-removeBlocks = []
+for (var a = 0; a < room_width / 16; a++) {
+	for (var b = 0; b < room_height / 16; b++) {
+		instance_create_layer(a * 16, b * 16, "Shadow", obj_wall)
+	}
+}
+
+voidSquares = []
+voidSquaresPos = []
 cavesWIP = []
 complete = false
 progress = 0
+
+caveObjs = obj_eng.caveInstances
 
 function digCave(x1, y1, x2, y2, steps, step_len, sway, cavewidth, cavegrow = 1, px = NaN, py = NaN) {
 	// create path
@@ -73,8 +81,10 @@ function digCave(x1, y1, x2, y2, steps, step_len, sway, cavewidth, cavegrow = 1,
 function carveWorld () {
 	show_debug_message("carving world")
 	with obj_wall {
-		if image_blend != c_dkgray
+		if image_blend != c_dkgray {
+			array_push(other.voidSquaresPos, { x, y })
 			instance_destroy(self)
+		}
 	}
 }
 
@@ -135,8 +145,8 @@ function formCaveStep (maxRange) {
 					var inst = ds_list_find_value(dslist, 0)
 					var distance = point_distance(inst.x, inst.y, px2, py2)
 					if distance >= cavesize + borderwidth {
-					} else if distance >= cavesize and !array_contains(removeBlocks, inst) {
-						array_push(removeBlocks, inst)
+					} else if distance >= cavesize and !array_contains(voidSquares, inst) {
+						array_push(voidSquares, inst)
 						inst.image_blend = c_dkgray
 						count++
 					} else if distance < cavesize {
@@ -160,18 +170,6 @@ function formCaveStep (maxRange) {
 //--------------------------------------
 
 
-for (var i = 0; i < 12; i++) {
-	var caveobj = {
-		steps: random_range(36, 48),
-		step_len: random_range(36, 48),
-		sway: random_range(10, 30),
-		cavewidth: random_range(16, 24),
-		cavegrow: random_range(1, 3),
-		px: NaN,
-		py: NaN
-	}
-	placeCave(caveobj)
-}
-for (var i = 0; i < 2; i++) {
-	//digCave(0, 0, room_width, room_height, random_range(24, 32), random_range(32, 64), random_range(25, 65), random_range(12, 20))
+for (var i = 0; i < array_length(caveObjs); i++) {
+	placeCave(caveObjs[i])
 }

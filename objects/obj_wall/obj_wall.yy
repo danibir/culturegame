@@ -34,8 +34,5 @@
     "path":"sprites/spr_wall/spr_wall.yy",
   },
   "spriteMaskId":null,
-  "tags":[
-    "depthed",
-  ],
   "visible":true,
 }

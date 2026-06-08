@@ -1,3 +1,8 @@
+age++
+
+
+
+//moving and zaxis
 
 if array_contains(collisionWTerrain, "left") and xspeed < 0
 	xspeed = 0
@@ -12,9 +17,10 @@ collisionWTerrain = []
 
 x += xspeed
 y += yspeed
-
 zspeed -= zgrav
 z += zspeed
+if z <= 0
+	zspeed = 0
 if moving = true {
 	if z <= 0
 	zspeed = walkbounce
@@ -22,11 +28,30 @@ if moving = true {
 moving = false
 z = max(0, z)
 sprite.yoffset = -z
-
-
 xspeed *= 0.8
 yspeed *= 0.8
 
+//other creatures
+
+with obj_entity { //self is entity instance, other is actual self
+	if self != other {
+		if !collision_line(self.x, self.y, other.x, other.y, obj_wall, false, true) 
+		and distance_to_object(other) < sightDistance {
+			var knows = false
+			if array_length(other.knownEntities) > 0 {
+				knows = array_any(other.knownEntities, function (inst) {
+					return inst.instance == self
+				})
+			}
+			if !knows {
+				other.createMemoryEntity(self)
+			}
+		}
+	}
+}
+
+
+//memoryflags
 var knowsplace = false
 for (var i = 0; i < array_length(memoryflags); i++) {
 	var flag = memoryflags[i]
@@ -44,3 +69,13 @@ if knowsplace = false {
 	var newflag = instance_create_layer(x, y, "Instances", obj_memory_flag)
 	array_push(memoryflags, newflag)
 }
+var convspeed = 1/15
+if isVisible() {
+	visibility += convspeed
+} else {
+	visibility -= convspeed
+}
+visibility = clamp(visibility, 0, 1)
+sprite.alpha = lerp(0.4, 1, visibility)
+var col = lerp(0, 255, visibility)
+sprite.col = make_colour_rgb(col, col, col)
