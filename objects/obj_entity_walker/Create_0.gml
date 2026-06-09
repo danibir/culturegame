@@ -7,6 +7,11 @@ path_goal = path_add()
 goalprogress = 0
 fails = 0
 thinktimer = 0
+
+target = noone
+intent = "wandering"
+lost = true
+
 plotPoint = function (attempts, x1, y1, x2, y2) {
 	var spots = []
 	for (var a = 0; a < attempts; a++) {
@@ -14,16 +19,15 @@ plotPoint = function (attempts, x1, y1, x2, y2) {
 			x: lerp(x1, x2, random(1)), 
 			y: lerp(y1, y2, random(1))
 		}
-		if !collision_line(x, y, pos.x, pos.y, obj_wall, true, true) {
+		if !collision_line(x, y, pos.x, pos.y, obj_wall, true, true)
 			array_push(spots, pos)
-			//var flag = instance_create_layer(pos.x, pos.y, "Instances", obj_memory_flag) //debug for dev, not saved to memoryflags
-			//flag.duration = 30000
-		}
+		//var flag = instance_create_layer(pos.x, pos.y, "Instances", obj_memory_flag) //debug for dev, not saved to memoryflags
+		//flag.duration = 30000
 	}
 	return spots
 }
 pathProgress = 0
-beginWalk = function(px, py, next) {
+beginWalk = function(px, py, next, fail="wiggle") {
 	instance_create_layer(x, y, "LoadScreen", obj_memory_flag)
     walkToPoint.x = px;
     walkToPoint.y = py;

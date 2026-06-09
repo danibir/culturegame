@@ -1,6 +1,34 @@
 age++
 
-
+/*
+		familiarity: 0,
+		relationship: 0,
+		state: "possible threat",
+		
+		// percieved stats
+		percievedThreat: 0.3,
+		percievedFriendliness: 0,
+		confidence: 0.4,
+		
+		// memory
+		lastSeen: age,
+		lastInteraction: "noone",
+		lastLocation: { x: instance.x, y: instance.y },
+		
+		//highly fluctuating
+		priority: 1
+		*/
+{
+	var ctx = { age, caller: id }
+	var cb = method(ctx, function (m) {
+		if seenBy(m.instance, caller) {
+			m.age = age
+			m.lastLocation.x = m.instance.x
+			m.lastLocation.y = m.instance.y
+		}
+	})
+	array_foreach(knownEntities, cb)
+}
 
 //moving and zaxis
 
@@ -77,5 +105,7 @@ if isVisible() {
 }
 visibility = clamp(visibility, 0, 1)
 sprite.alpha = lerp(0.4, 1, visibility)
-var col = lerp(0, 255, visibility)
-sprite.col = make_colour_rgb(col, col, col)
+var r = lerp(0, colour_get_red(spritecol), visibility)
+var g = lerp(0, colour_get_green(spritecol), visibility)
+var b = lerp(0, colour_get_blue(spritecol), visibility)
+sprite.col = make_colour_rgb(r, g, b)

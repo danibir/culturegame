@@ -15,6 +15,7 @@ sprite.body = self
 sprite.sprite = spr_man
 spritexscale = 1
 spriteyscale = 1
+spritecol = c_yellow
 
 sprite_shadow = instance_create_layer(x, y, "Shadow", obj_sprite)
 sprite_shadow.body = self

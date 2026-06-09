@@ -34,6 +34,8 @@ constructor {
 }
 gridSize = 16
 worldGrid = mp_grid_create(0, 0, room_width div gridSize, room_height div gridSize, gridSize, gridSize)
+gameReady = false
+gameMenu = false
 initGame = function () {
 	var treeEach = 24
 	for (var i = 0; i < treeEach * array_length(caveInstances); i++) {
@@ -86,15 +88,21 @@ initGame = function () {
 			newentity.y = entity.position.y
 			var ctx = { newentity };
 			var cb = method(ctx, function(pmember) {
-			    var index = pmember.createMemoryEntity(self.newentity);
-				var memory = pmember.knownEntities[index]
+				var index1 = pmember.createMemoryEntity(self.newentity)
+				var memory1 = pmember.knownEntities[index1]
+				var index2 = self.newentity.createMemoryEntity(pmember)
+				var memory2 = self.newentity.knownEntities[index2]
 				
 				//change object keys...
-				memory.state = "ally"
-				memory.familiarity = 0.8
+				var state = "ally"
+				var familiarity = 0.8
+				memory1.state = state
+				memory2.state = state
+				memory1.familiarity = familiarity
+				memory2.familiarity = familiarity
 				
-				
-				pmember.knownEntities[index] = memory
+				pmember.knownEntities[index1] = memory1
+				self.newentity.knownEntities[index2] = memory2
 			})
 			array_foreach(pack, cb)
 			array_push(pack, newentity)
@@ -103,6 +111,7 @@ initGame = function () {
 			array_sort(pack, function (member1, member2) {
 				return member2.personality.alpha - member1.personality.alpha
 			})
+			pack[0].spritecol = c_orange
 			var ctx = { alphaentity: pack[0], pack }
 			var cb = method(ctx, function (pmember) {
 				array_foreach(pmember.knownEntities, function (memory) {
@@ -114,4 +123,5 @@ initGame = function () {
 			array_foreach(pack, cb)
 		}
 	}
+	gameReady = true
 }

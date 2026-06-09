@@ -1,6 +1,9 @@
 function isVisible (instance=self) {
-	if instance_exists(obj_entity_player)
-		return (!collision_line(instance.x, instance.y, obj_entity_player.x, obj_entity_player.y, obj_wall, false, true) 
-		and point_distance(instance.x, instance.y, obj_entity_player.x, obj_entity_player.y) < obj_entity_player.sightDistance)
+	return seenBy(instance, obj_entity_player)
+}
+function seenBy (target, issuer) {
+	if instance_exists(issuer)
+		return (!collision_line(target.x, target.y, issuer.x, issuer.y, obj_wall, false, true) 
+		and point_distance(target.x, target.y, issuer.x, issuer.y) < issuer.sightDistance)
 	return false
 }

@@ -13,6 +13,8 @@ follow = obj_camfocus
 offset_x = 0
 offset_y = 0
 
+freeCam = false	
+
 cam = camera_create()
 camera_set_view_pos(cam, x - default_view_width / 2, y - default_view_height / 2)
 camera_set_view_size(cam, default_view_width * zoom, default_view_height * zoom)
