@@ -84,6 +84,7 @@
     {"id":{"name":"spr_background1_grass2","path":"sprites/spr_background1_grass2/spr_background1_grass2.yy",},},
     {"id":{"name":"spr_background1_grass3","path":"sprites/spr_background1_grass3/spr_background1_grass3.yy",},},
     {"id":{"name":"spr_background1_player","path":"sprites/spr_background1_player/spr_background1_player.yy",},},
+    {"id":{"name":"spr_background1_title","path":"sprites/spr_background1_title/spr_background1_title.yy",},},
     {"id":{"name":"spr_backgroundsized","path":"sprites/spr_backgroundsized/spr_backgroundsized.yy",},},
     {"id":{"name":"spr_button","path":"sprites/spr_button/spr_button.yy",},},
     {"id":{"name":"spr_camera","path":"sprites/spr_camera/spr_camera.yy",},},

@@ -53,6 +53,7 @@ initGame = function () {
 	mp_grid_add_instances(worldGrid, obj_wall, false);
 	var spawnEntities = [
 	new createSpawn(obj_entity_player, 1),
+	new createSpawn(obj_entity, 1),
 	new createSpawn(obj_entity_walker, 5)
 	]
 	

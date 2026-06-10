@@ -56,6 +56,7 @@
     {"name":"spr_background1_grass2","order":1,"path":"sprites/spr_background1_grass2/spr_background1_grass2.yy",},
     {"name":"spr_background1_grass3","order":2,"path":"sprites/spr_background1_grass3/spr_background1_grass3.yy",},
     {"name":"spr_background1_player","order":3,"path":"sprites/spr_background1_player/spr_background1_player.yy",},
+    {"name":"spr_background1_title","order":5,"path":"sprites/spr_background1_title/spr_background1_title.yy",},
     {"name":"spr_backgroundsized","order":2,"path":"sprites/spr_backgroundsized/spr_backgroundsized.yy",},
     {"name":"spr_button","order":16,"path":"sprites/spr_button/spr_button.yy",},
     {"name":"spr_camera","order":3,"path":"sprites/spr_camera/spr_camera.yy",},

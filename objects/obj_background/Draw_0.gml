@@ -1,1 +1,1 @@
-draw_sprite(sprite, 0, x + xoffset, y + yoffset)
+draw_sprite_ext(sprite, 0, x + xoffset, y + yoffset, 1, 1, 0, col, 1)

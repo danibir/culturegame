@@ -60,11 +60,12 @@ xspeed *= 0.8
 yspeed *= 0.8
 
 //other creatures
-
-with obj_entity { //self is entity instance, other is actual self
+var entityList = ds_list_create()
+collision_circle_list(x, y, sightDistance, obj_entity, true, true, entityList, true)
+with entityList { //self is entity instance, other is actual self
 	if self != other {
 		if !collision_line(self.x, self.y, other.x, other.y, obj_wall, false, true) 
-		and distance_to_object(other) < sightDistance {
+		and distance_to_object(other) < other.sightDistance {
 			var knows = false
 			if array_length(other.knownEntities) > 0 {
 				knows = array_any(other.knownEntities, function (inst) {
@@ -77,6 +78,7 @@ with obj_entity { //self is entity instance, other is actual self
 		}
 	}
 }
+ds_list_destroy(entityList)
 
 
 //memoryflags

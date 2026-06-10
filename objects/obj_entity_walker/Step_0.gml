@@ -7,14 +7,23 @@ if hasLeader != -1
 {
 	var leader = knownEntities[hasLeader]
 	target = leader
-	intent = "follow"
 	if seenBy(leader.instance, self) {
 		lost = false
 	} else if point_distance(x, y, target.lastLocation.x, target.lastLocation.y) < 4 {
 		lost = true
 	}
-	if lost = true
+	if lost = true {
 		intent = "wandering"
+	} else {
+		intent = target.instance.intent
+		if point_distance(x, y, target.lastLocation.x, target.lastLocation.y) > sightDistance * 0.7 
+		or intent = "wandering" {
+			intent = "follow"
+		}
+	}
+} else {
+	intent = "wandering"
+	
 }
 
 turnTimer--
@@ -32,6 +41,25 @@ switch (intent) {
 				break
 			}
 	
+			case "think":
+			{
+				thinktimer--
+				if thinktimer <= 0
+					behavior = ""
+				break
+			}
+			case "wriggle": {
+				var dir = random(360)
+				var _push = 3
+				var _x = lengthdir_x(_push, dir)
+				var _y = lengthdir_y(_push, dir)
+				xspeed += _x
+				yspeed += _y
+				thinktimer = 15
+				behavior = "think"
+				break
+			}
+	
 			case "request_follow":
 			{
 				var radius = 8
@@ -46,14 +74,14 @@ switch (intent) {
 			}
 			case "following":
 			{
-				walkUntil(0.5, function () {
+				walkUntil(0.4, function () {
 					behavior = "await"
 				})
 				break
 			}
 			case "await":
 			{
-				if distance_to_object(target.instance) > 64 or !seenBy(target.instance, self) {
+				if distance_to_object(target.instance) > 16 or !seenBy(target.instance, self) {
 					behavior = "request_follow"
 				}
 				break
