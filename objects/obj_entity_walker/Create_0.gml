@@ -27,6 +27,27 @@ plotPoint = function (attempts, x1, y1, x2, y2) {
 	}
 	return spots
 }
+plotPointCircle = function (attempts, xpos, ypos, radius) {
+	var spots = []
+	for (var a = 0; a < attempts; a++) {
+        var ang = random(360);
+
+        // Pick a random distance (square‑rooted for uniform distribution)
+        var dist = sqrt(random(radius * radius));
+
+        // Convert polar → cartesian
+        var px = xpos + lengthdir_x(dist, ang);
+        var py = ypos + lengthdir_y(dist, ang);
+		var pos = { x: px, y: py,}
+        // Store as a struct
+		
+		if !collision_line(x, y, pos.x, pos.y, obj_wall, true, true)
+			array_push(spots, pos)
+		//var flag = instance_create_layer(pos.x, pos.y, "Instances", obj_memory_flag) //debug for dev, not saved to memoryflags
+		//flag.duration = 30000
+	}
+	return spots
+}
 pathProgress = 0
 beginWalk = function(px, py, next, fail="wiggle") {
 	instance_create_layer(x, y, "LoadScreen", obj_memory_flag)

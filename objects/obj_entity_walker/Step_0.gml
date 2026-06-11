@@ -41,6 +41,45 @@ if hasLeader != -1 {
 
 turnTimer--
 switch (intent) {
+	case "stare": {
+		#region stare
+		switch (behavior)  {
+		
+			default: {
+				behavior = ""
+				break
+			}
+			
+			case "": {
+				behavior = "request_follow"
+				break
+			}
+	
+			case "think":
+			{
+				thinktimer--
+				if thinktimer <= 0
+					behavior = ""
+				break
+			}
+			case "wriggle": {
+				var dir = random(360)
+				var _push = 3
+				var _x = lengthdir_x(_push, dir)
+				var _y = lengthdir_y(_push, dir)
+				xspeed += _x
+				yspeed += _y
+				thinktimer = 15
+				behavior = defaultBehavior
+				break
+			}
+			case "keepDistance": {
+				var pos = plotPointCircle(24, x, y, 128)
+				pos = array_filter(pos, function (point) { return })
+			}
+		}
+		#endregion
+	}
 	case "follow": {
 		#region follow
 		switch (behavior) {
@@ -104,6 +143,7 @@ switch (intent) {
 				break
 			}
 		}
+		#endregion
 		break
 	}
 	case "wandering": {
