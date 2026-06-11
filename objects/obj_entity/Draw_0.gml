@@ -1,3 +1,4 @@
+/*
 draw_text(x, y, behavior)
 try {
 	draw_text(x, y + 15, intent)

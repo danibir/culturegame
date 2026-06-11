@@ -17,12 +17,12 @@ obj_camfocus.y = lerp(obj_camfocus.y, sharedFocus.y - sprite.sprite_height / 2 +
 var walkspeed = 0.15
 if keyboard_check(vk_shift)
 	walkspeed *= 2.5
-if keyboard_check_pressed(vk_space)
-	walkspeed *= 20
-if keyboard_check_pressed(vk_control) {
-	x = mouse_x
-	y = mouse_y
-}
+//if keyboard_check_pressed(vk_space)
+//	walkspeed *= 20
+//if keyboard_check_pressed(vk_control) {
+//	x = mouse_x
+//	y = mouse_y
+//}
 
 var moveside = []
 if keyboard_check(ord("D")) and not array_contains(collisionWTerrain, "right")

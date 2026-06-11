@@ -22,6 +22,7 @@
     {"name":"obj_memory_flag","order":7,"path":"objects/obj_memory_flag/obj_memory_flag.yy",},
     {"name":"obj_menu","order":21,"path":"objects/obj_menu/obj_menu.yy",},
     {"name":"obj_mouse","order":13,"path":"objects/obj_mouse/obj_mouse.yy",},
+    {"name":"obj_note","order":25,"path":"objects/obj_note/obj_note.yy",},
     {"name":"obj_sprite","order":16,"path":"objects/obj_sprite/obj_sprite.yy",},
     {"name":"obj_tree","order":14,"path":"objects/obj_tree/obj_tree.yy",},
     {"name":"obj_wall_cluster","order":9,"path":"objects/obj_wall_cluster/obj_wall_cluster.yy",},

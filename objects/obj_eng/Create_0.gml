@@ -1,4 +1,4 @@
-show_debug_log(true)
+show_debug_log(false)
 instance_create_layer(x, y, "Instances", obj_mouse)
 caveInstances = []
 function prescribe_Cave (_steps, _step_len, _sway, _cavewidth, _cavegrow) {
@@ -13,7 +13,7 @@ function prescribe_Cave (_steps, _step_len, _sway, _cavewidth, _cavegrow) {
 	}
 	array_push(caveInstances, caveobj)
 }
-for (var i = 0; i < 3; i++)
+for (var i = 0; i < 11; i++)
 	prescribe_Cave(
 	random_range(36, 48), 
 	random_range(36, 48), 
@@ -53,8 +53,7 @@ initGame = function () {
 	mp_grid_add_instances(worldGrid, obj_wall, false);
 	var spawnEntities = [
 	new createSpawn(obj_entity_player, 1),
-	new createSpawn(obj_entity, 1),
-	new createSpawn(obj_entity_walker, 5)
+	new createSpawn(obj_entity_walker, 4)
 	]
 	
 	var positions = []
@@ -113,6 +112,8 @@ initGame = function () {
 				return member2.personality.alpha - member1.personality.alpha
 			})
 			pack[0].spritecol = c_orange
+			pack[0].spritexscale = 1.15
+			pack[0].spriteyscale = 1.10
 			var ctx = { alphaentity: pack[0], pack }
 			var cb = method(ctx, function (pmember) {
 				array_foreach(pmember.knownEntities, function (memory) {

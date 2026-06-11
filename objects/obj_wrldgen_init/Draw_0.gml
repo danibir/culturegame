@@ -1,4 +1,4 @@
-draw_set_alpha(0.3)
+draw_set_alpha(1)
 draw_set_colour(c_black)
 for (var i = 0; i < array_length(voidSquaresPos); i++)
 {

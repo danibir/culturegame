@@ -15,43 +15,111 @@ if hasLeader != -1 {
 	}
 	if lost = true {
 		intent = "wandering"
+		defaultBehavior = ""
 	} else {
-		intent = target.instance.intent
 		if point_distance(x, y, target.lastLocation.x, target.lastLocation.y) > sightDistance * 0.7 
-		or intent = "wandering" {
+		or point_distance(x, y, target.lastLocation.x, target.lastLocation.y) > 32
+		and intent = "follow"
+		or target.instance.intent = "wandering" {
 			intent = "follow"
+			defaultBehavior = ""
+		} else if point_distance(x, y, target.lastLocation.x, target.lastLocation.y) > 16
+		and target.instance.intent = "stare" {
+			intent = "cover"
+			target = { 
+				from: target.instance.target,
+				cover: target
+			}
+		} else {
+			intent = target.instance.intent
+			defaultBehavior = target.instance.defaultBehavior
+			target = target.instance.target
 		}
 	}
 } else {
 	intent = "wandering"
-	var ctx  = { target: target, intent: intent }
-	var cb = method(ctx, function (ent) {
-		if ent.state != "ally"
-			show_debug_message(ent.state)
+	defaultBehavior = "request_gotopoint"
+	var cb = method(self, function (ent) {
 		if ent.state == "possible threat" {
 			target = ent
+			defaultBehavior = "stare"
 			intent = "stare"
 			exit
 		}
 	})
-	array_foreach(knownEntities, cb)
-	target = ctx.target
-	intent = ctx.intent
+	array_foreach(seenEntities, cb)
 }
 
 turnTimer--
 switch (intent) {
-	case "stare": {
-		#region stare
-		switch (behavior)  {
-		
+	case "cover": {
+		#region cover
+		switch (behavior) {
+				
 			default: {
-				behavior = ""
+				behavior = "isincover"
 				break
 			}
 			
 			case "": {
-				behavior = "request_follow"
+				behavior = defaultBehavior
+				break
+			}
+			case "isincover": {
+				if !collision_line(x, y, target.from.instance.x, target.from.instance.y, target.cover.instance, false, false)
+					behavior = "findcover"
+				break
+			}
+			case "findcover": {
+				var pos = plotPointCircle(24, target.cover.instance.x, target.cover.instance.y, 96)
+				array_sort(pos, function (posa, posb) {
+					var dir = point_direction(target.from.instance.x, target.from.instance.y, target.cover.instance.x, target.cover.instance.y)
+					var targetpos = {
+						x: target.cover.instance.x + lengthdir_x(8, dir),
+						y: target.cover.instance.y + lengthdir_x(8, dir)
+					}
+					var adis = point_distance(posa.x, posa.y, targetpos.x, targetpos.y)
+					var bdis = point_distance(posb.x, posb.y, targetpos.x, targetpos.y)
+					return adis - bdis
+				})
+				if array_length(pos) > 0 {
+					beginWalk(pos[0].x, pos[0].y, "gotocover")
+				}
+				break
+			}
+			case "gotocover": {
+				walkUntil(0.65, function(){
+					behavior = "isinCover"
+				})
+				break
+			}
+		}
+		#endregion
+		break
+	}
+	case "stare": {
+		#region stare
+		var tooClose = 64
+		var tooFar = sightDistance - 64
+		switch (behavior)  {
+			default: {
+				behavior = "stare"
+				break
+			}
+			
+			case "": {
+				behavior = defaultBehavior
+				break
+			}
+			
+			case "stare": { //issue is here...
+				var dis = point_distance(x, y, target.lastLocation.x, target.lastLocation.y)
+				if dis < tooClose
+					behavior = "keepDistance"
+				else if dis > tooFar
+					behavior = "closeDistance"
+				else
+					behavior = "stare"
 				break
 			}
 	
@@ -59,7 +127,7 @@ switch (intent) {
 			{
 				thinktimer--
 				if thinktimer <= 0
-					behavior = ""
+					behavior = defaultBehavior
 				break
 			}
 			case "wriggle": {
@@ -69,20 +137,60 @@ switch (intent) {
 				var _y = lengthdir_y(_push, dir)
 				xspeed += _x
 				yspeed += _y
-				thinktimer = 15
+				thinktimer = 10
 				behavior = defaultBehavior
 				break
 			}
 			case "keepDistance": {
-				var pos = plotPointCircle(24, x, y, 128)
-				pos = array_filter(pos, function (point) { return })
+				var pos = plotPointCircle(24, x, y, lerp(tooClose, tooFar, 0.3))
+				pos = array_filter(pos, function (point) { 
+					var pathPos = { x: lerp(x, point.x, 0.5), y: lerp(y, point.y, 0.5)}
+					var pathDis = point_distance(target.lastLocation.x, target.lastLocation.y, pathPos.x, pathPos.y)
+					var orgDis = point_distance(target.lastLocation.x, target.lastLocation.y, x, y)
+					return orgDis < pathDis
+				})
+				array_sort(pos, function (pointa, pointb) {
+					var adis = point_distance(target.lastLocation.x, target.lastLocation.y, pointa.x, pointa.y)
+					var bdis = point_distance(target.lastLocation.x, target.lastLocation.y, pointb.x, pointb.y)
+					return bdis - adis
+				})
+				if array_length(pos) > 0 {
+					beginWalk(pos[0].x, pos[0].y, "walk")
+				}
+				break
+			}
+			case "closeDistance": {
+				var pos = plotPointCircle(24, x, y, lerp(tooClose, tooFar, 0.3))
+				pos = array_filter(pos, function (point) { 
+					var pathPos = { x: lerp(x, point.x, 0.5), y: lerp(y, point.y, 0.5)}
+					var pathDis = point_distance(target.lastLocation.x, target.lastLocation.y, pathPos.x, pathPos.y)
+					var orgDis = point_distance(target.lastLocation.x, target.lastLocation.y, x, y)
+					return orgDis > pathDis
+				})
+				array_sort(pos, function (pointa, pointb) {
+					var adis = point_distance(target.lastLocation.x, target.lastLocation.y, pointa.x, pointa.y)
+					var bdis = point_distance(target.lastLocation.x, target.lastLocation.y, pointb.x, pointb.y)
+					return adis - bdis
+				})
+				if array_length(pos) > 0 {
+					beginWalk(pos[0].x, pos[0].y, "walk")
+				}
+				break
+			}
+			case "walk": {
+				walkUntil(0.7, function (){
+					behavior = defaultBehavior
+				})
+				break
 			}
 		}
 		#endregion
+		break
 	}
 	case "follow": {
 		#region follow
 		switch (behavior) {
+			
 			default: {
 				behavior = ""
 				break
