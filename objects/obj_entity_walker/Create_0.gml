@@ -9,7 +9,8 @@ fails = 0
 thinktimer = 0
 
 target = noone
-intent = "wandering"
+intent = ""
+defaultBehavior = ""
 lost = true
 
 plotPoint = function (attempts, x1, y1, x2, y2) {

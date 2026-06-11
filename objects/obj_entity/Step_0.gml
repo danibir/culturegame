@@ -62,23 +62,33 @@ yspeed *= 0.8
 //other creatures
 var entityList = ds_list_create()
 collision_circle_list(x, y, sightDistance, obj_entity, true, true, entityList, true)
-with entityList { //self is entity instance, other is actual self
-	if self != other {
-		if !collision_line(self.x, self.y, other.x, other.y, obj_wall, false, true) 
-		and distance_to_object(other) < other.sightDistance {
+
+var arr = [];
+var count = ds_list_size(entityList);
+
+for (var i = 0; i < count; i++) {
+    arr[i] = entityList[| i];
+}
+ds_list_destroy(entityList)
+
+array_foreach(arr, function (ent) {
+	if ent != self {
+		if !collision_line(ent.x, ent.y, self.x, self.y, obj_wall, false, true) 
+		and distance_to_object(ent) < self.sightDistance {
 			var knows = false
-			if array_length(other.knownEntities) > 0 {
-				knows = array_any(other.knownEntities, function (inst) {
-					return inst.instance == self
+			if array_length(self.knownEntities) > 0 {
+				var ctx = { ent: ent }
+				var cb = method(ctx, function (inst) {
+					return inst.instance == self.ent
 				})
+				knows = array_any(self.knownEntities, cb)
 			}
 			if !knows {
-				other.createMemoryEntity(self)
+				self.createMemoryEntity(ent)
 			}
 		}
 	}
-}
-ds_list_destroy(entityList)
+})
 
 
 //memoryflags

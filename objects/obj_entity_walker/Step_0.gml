@@ -2,9 +2,10 @@
 
 event_inherited()
 
-var hasLeader = array_find_index(knownEntities, function (elm) { return elm.state == "alpha" })
-if hasLeader != -1
-{
+var hasLeader = array_find_index(knownEntities, function (ent) { return ent.state == "alpha" })
+var seenEntities = array_filter(knownEntities, function (ent) { return seenBy(ent.instance, self) })
+array_sort(seenEntities, function (enta, entb) { return entb.priority - enta.priority })
+if hasLeader != -1 {
 	var leader = knownEntities[hasLeader]
 	target = leader
 	if seenBy(leader.instance, self) {
@@ -23,7 +24,19 @@ if hasLeader != -1
 	}
 } else {
 	intent = "wandering"
-	
+	var ctx  = { target: target, intent: intent }
+	var cb = method(ctx, function (ent) {
+		if ent.state != "ally"
+			show_debug_message(ent.state)
+		if ent.state == "possible threat" {
+			target = ent
+			intent = "stare"
+			exit
+		}
+	})
+	array_foreach(knownEntities, cb)
+	target = ctx.target
+	intent = ctx.intent
 }
 
 turnTimer--
@@ -56,7 +69,7 @@ switch (intent) {
 				xspeed += _x
 				yspeed += _y
 				thinktimer = 15
-				behavior = "think"
+				behavior = defaultBehavior
 				break
 			}
 	
@@ -68,8 +81,12 @@ switch (intent) {
 					x2: target.lastLocation.x + radius, y2: target.lastLocation.y + radius 
 				}
 				var point = plotPoint(24, range.x1, range.y1, range.x2, range.y2)
-				if array_length(point) > 0
+				if array_length(point) > 0 {
 					beginWalk(point[0].x, point[0].y, "following", "request_follow")
+				} else {
+					defaultBehavior = "request_follow"
+					behavior = "wiggle"
+				}
 				break
 			}
 			case "following":
